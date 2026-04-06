@@ -16,10 +16,13 @@ public class App {
         System.out.print("Digite o modelo: ");
         String modelo = teclado.nextLine();
 
-        salvarNoBanco(placa, modelo);
-        
-        // Chama a lista logo após salvar para ver o dashboard
-        listarDashboard();
+      
+        if (placa.trim().isEmpty()) {
+            System.out.println("Erro: A placa ou modelo não podem estar vazios. Cadastro cancelado.");
+        } else {
+            salvarNoBanco(placa, modelo);
+            listarDashboard();
+        }
         
         teclado.close();
     }
@@ -33,7 +36,7 @@ public class App {
             stmt.executeUpdate();
             System.out.println("Carro cadastrado com sucesso!");
         } catch (Exception e) {
-            System.out.println("Erro ao salvar: " + e.getMessage());
+            System.out.println("Erro ao salvar no MySQL: " + e.getMessage());
         }
     }
 
@@ -48,7 +51,7 @@ public class App {
                                    rs.getString("modelo") + " - " + rs.getString("placa"));
             }
         } catch (Exception e) {
-            System.out.println("Erro ao carregar dashboard: " + e.getMessage());
+            System.out.println("Erro ao carregar lista: " + e.getMessage());
         }
     }
 }
